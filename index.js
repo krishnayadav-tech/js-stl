@@ -1,8 +1,3 @@
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
-
 class stl {
     static sort(array, params = {}) {
         const { 
@@ -46,10 +41,23 @@ class stl {
         return array;
     }
 
-    static binarySearch(array, toSearch) {
+    static __binarySearch(array, left, right, toSearch) {
+        /* base case */
+        if(left === right) {
+            return array[left] === toSearch ? left : -1;
+        }
 
+        let mid = Math.floor(left + (right - left)/2);
+        const leftRes = this.__binarySearch(array, left, mid, toSearch);
+        const rightRes = this.__binarySearch(array, mid + 1, right, toSearch);
+        return Math.max(leftRes, rightRes);
+    }
+    
+    static binarySearch(array, toSearch) {
+       return this.__binarySearch(array, 0, array.length -1, toSearch);
     }
 }
+
 console.log(stl.sort([
     { a: { c: 10 }, b: 20 },
     { a: { c: 20 }, b: 20 },

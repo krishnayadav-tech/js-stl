@@ -47,6 +47,10 @@ class stl {
             return array[left] === toSearch ? left : -1;
         }
 
+        if(left > right) {
+            return -1;
+        }
+
         let mid = Math.floor(left + (right - left)/2);
         const leftRes = this.__binarySearch(array, left, mid, toSearch);
         const rightRes = this.__binarySearch(array, mid + 1, right, toSearch);
@@ -55,6 +59,49 @@ class stl {
     
     static binarySearch(array, toSearch) {
        return this.__binarySearch(array, 0, array.length -1, toSearch);
+    }
+
+    static __lowerBound(array, left, right, element) {
+        if(left === right) {
+            return (
+                array[left] === element &&
+                    (left === 0 || array[left - 1] < element) ?
+                    left : -1
+            );
+        }
+        if(left > right) {
+            return -1;
+        }
+        let mid = Math.floor(left + (right - left)/2);
+        const leftRes = this.__lowerBound(array, left, mid, element);
+        const rightRes = this.__lowerBound(array, mid + 1, right, element);
+        return Math.max(leftRes, rightRes);
+    }
+
+
+    static lowerBound(array, element) {
+        return this.__lowerBound(array, 0, array.length - 1 , element);
+    }
+
+    static __upperBound(array, left, right, element) {
+        if(left === right) {
+            return (
+                array[left] === element &&
+                    (left === array.length -1 || array[left + 1] > element) ?
+                    left : -1
+            );
+        }
+        if(left > right) {
+            return -1;
+        }
+        let mid = Math.floor(left + (right - left)/2);
+        const leftRes = this.__upperBound(array, left, mid, element);
+        const rightRes = this.__upperBound(array, mid + 1, right, element);
+        return Math.max(leftRes, rightRes);
+    }
+
+    static upperBound(array, element) {
+        return this.__upperBound(array, 0, array.length -1 , element);
     }
 }
 
